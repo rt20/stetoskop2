@@ -24,7 +24,6 @@ class MLController extends Controller
         if (Storage::disk('public')->exists("uploads/$request->name")) {
             $data = Storage::disk('public')->path("uploads/$request->name");
             $model = '/model.tflite';
-           # dd($model);
             $python = 'python';
             $script = escapeshellcmd(base_path('/ml_scrypt.py'));
             $command = "$python $script $data $model";
