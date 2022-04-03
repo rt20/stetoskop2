@@ -23,8 +23,8 @@ class MLController extends Controller
         ini_set('max_execution_time', 300);
         if (Storage::disk('public')->exists("uploads/$request->name")) {
             $data = Storage::disk('public')->path("uploads/$request->name");
-            $model = 'C:\xampp\htdocs\stetoskop\model.tflite';
-            $python = 'C:/Users/wasdar15-2022/AppData/Local/Programs/Python/Python38/python.exe';
+            $model = './model.tflite';
+            $python = '/usr/bin/python3.8.py';
             $script = escapeshellcmd(base_path('/ml_scrypt.py'));
             $command = "$python $script $data $model";
             ob_start();
