@@ -75,7 +75,7 @@ class DokterController extends Controller
         if (Storage::disk('public')->exists("uploads/$readpasien->name")) {
             $data = Storage::disk('public')->path("uploads/$readpasien->name");
             $python = '/usr/bin/python3.8';
-            $script = escapeshellcmd(base_path('../graph.py'));
+            $script = escapeshellcmd(base_path('/graph.py'));
             $command = "$python $script $data";
             ob_start();
             $output = exec($command);
