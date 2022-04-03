@@ -91,7 +91,7 @@ class PasienController extends Controller
         $readpasien = MachineLearning::where('id', $id)->firstOrfail();
         if (Storage::disk('public')->exists("uploads/$readpasien->name")) {
             $data = Storage::disk('public')->path("uploads/$readpasien->name");
-            $python = '/usr/bin/python3.8';
+            $python = 'python';
             $script = escapeshellcmd(base_path('/graph.py'));
             $command = "$python $script $data";
             ob_start();
