@@ -22,6 +22,8 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'sip' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'ktp' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();

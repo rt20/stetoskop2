@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Pasien;
 use App\Models\MachineLearning;
 use Illuminate\Support\Facades\Storage;
+use App\Exceptions\InvalidOrderException;
 
 class PasienController extends Controller
 {
@@ -40,16 +41,26 @@ class PasienController extends Controller
     public function store(Request $request)
     {
         $activeUser = User::find(Auth::id());
+        try {
+            Pasien::create([
+                'user_id' => $activeUser->id,
+                'name' => $activeUser->name,
+                'gender' => $activeUser->gender,
+                'address' => $activeUser->address,
+                'email' => $activeUser->email,
+                'phonenumber' => $activeUser->phonenumber,
+                'dokter_id' => $request->id,
+            ])->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $errorCode = $th->errorInfo[1];
+            if($errorCode == '1062'){
+                // dd('Duplicate Entry');
+                return redirect()->back()->withErrors($errorCode);
+            }
+        }
 
-        Pasien::create([
-            'user_id' => $activeUser->id,
-            'name' => $activeUser->name,
-            'gender' => $activeUser->gender,
-            'address' => $activeUser->address,
-            'email' => $activeUser->email,
-            'phonenumber' => $activeUser->phonenumber,
-            'dokter_id' => $request->id,
-        ])->save();
+        
 
         return redirect()->back();
     }

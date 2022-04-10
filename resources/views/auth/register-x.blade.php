@@ -8,17 +8,19 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-
+ 
             <input type="hidden" name="role_id" value="2" />
 
             <div class="mt-4">
                 <x-jet-label for="sip" value="{{ __('SIP') }}" />
-                <x-jet-input id="sip" class="block mt-1 w-full" type="file" :value="old('sip')" name="sip" />
+                <x-jet-input id="sip" class="block mt-1 w-full" type="file" :value="old('sip')" name="sip"/>
+                <p>(jpeg/jpg/png)</p>
             </div>
 
             <div class="mt-4">
                 <x-jet-label for="ktp" value="{{ __('KTP') }}" />
-                <x-jet-input id="ktp" class="block mt-1 w-full" type="file" :value="old('ktp')" name="ktp" />
+                <x-jet-input id="ktp" class="block mt-1 w-full" type="file" :value="old('ktp')" name="ktp"/>
+               <p>(jpeg/jpg/png)</p>
             </div>
 
             <div class="mt-4">
