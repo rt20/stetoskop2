@@ -25,6 +25,7 @@ class HomeController extends Controller
             return view('pasien.pasien.dashboard', compact('dataML'));
         } else {
             $readPasien = $this->DokterController->viewPasien();
+            // dd($readPasien);
             return view('dokter.dokter.dashboard', compact('readPasien'));
         }
     }

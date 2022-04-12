@@ -41,26 +41,32 @@ class PasienController extends Controller
     public function store(Request $request)
     {
         $activeUser = User::find(Auth::id());
-        try {
-            Pasien::create([
-                'user_id' => $activeUser->id,
-                'name' => $activeUser->name,
-                'gender' => $activeUser->gender,
-                'address' => $activeUser->address,
-                'email' => $activeUser->email,
-                'phonenumber' => $activeUser->phonenumber,
-                'dokter_id' => $request->id,
-            ])->save();
-        } catch (\Throwable $th) {
-            //throw $th;
-            $errorCode = $th->errorInfo[1];
-            if($errorCode == '1062'){
-                // dd('Duplicate Entry');
-                return redirect()->back()->withErrors($errorCode);
-            }
-        }
+        $gender = $activeUser->gender;
+        $address = $activeUser->address;
 
-        
+        if ($gender == null or $address == null){
+            return view('profile.show');
+        } else {
+            try {
+                Pasien::create([
+                    'user_id' => $activeUser->id,
+                    'name' => $activeUser->name,
+                    'gender' => $activeUser->gender,
+                    'address' => $activeUser->address,
+                    'email' => $activeUser->email,
+                    'phonenumber' => $activeUser->phonenumber,
+                    'dokter_id' => $request->id,
+                ])->save();
+            } catch (\Throwable $th) {
+                //throw $th;
+                $errorCode = $th->errorInfo[1];
+                if($errorCode == '1062'){
+                    // dd('Duplicate Entry');
+                    return redirect()->back()->withErrors($errorCode);
+                }
+            }
+
+        }  
 
         return redirect()->back();
     }

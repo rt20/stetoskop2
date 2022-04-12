@@ -123,7 +123,7 @@ class DokterController extends Controller
             $output = ob_get_clean();
             $username = Pasien::where('user_id', $readpasien->pasien_id)->get();
             $namafile = $readpasien->name;
-
+          
             return view('dokter.dokter.result', compact('username', 'namafile', 'x', 'y', 'as', 'mr', 'ms', 'mvp', 'n'));
         }
     }
