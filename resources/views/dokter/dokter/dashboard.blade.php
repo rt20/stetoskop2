@@ -8,10 +8,15 @@
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             @csrf
                             <table class="min-w-full divide-y divide-gray-200 w-full">
+                            <form class="form-inline ml-3">
                                 <div class="px-6 py-3 bg-white">
-                                    <x-jet-label for="pasien" value="" />
-                                    <x-jet-input id="pasien" wire:model="" class="block mt-3 w-200" type="text" name="pasien" :value="old('pasien')" placeholder="Search Pasien" required autofocus />
+                                    <x-jet-label for="search" value="" />
+                                    <x-jet-input id="search" wire:model="" class="block mt-3 w-200" type="text" name="search" :value="old('search')" placeholder="Search Pasien" required autofocus />
+                                    <button class="btn btn-navbar" type="submit">
+                                                <i class="fas fa-search"></i>
+                                    </button>             
                                 </div>
+                                </form>
                                 <thead>
                                     <tr>
                                         <th scope="col" width="200" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -42,7 +47,7 @@
                                     @foreach ($readPasien as $pasien)
                                     <tr> 
                                         <td scope="col" width="200" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-
+                                            Personal Computer
                                         </td>
                                         <td scope="col" width="200" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             {{ $pasien->name }}

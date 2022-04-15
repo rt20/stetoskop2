@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pasien;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 class DokterController extends Controller
 {
@@ -29,10 +30,16 @@ class DokterController extends Controller
 
     public function viewPasien()
     {
-
         $getDocNurID = Auth::id();
 
-        return Pasien::where('dokter_id', $getDocNurID)->get();
+        if (request()->search) {
+            return Pasien::where('dokter_id', $getDocNurID)
+                            ->where('name', 'like', '%' . request()->search . '%')
+                            ->get();
+        } else {
+            return Pasien::where('dokter_id', $getDocNurID)->get();
+        }
+        
     }
 
     public function classification($id)
@@ -137,9 +144,11 @@ class DokterController extends Controller
     }
     public function detailPatient($id)
     {
+        $readpasien = Pasien::where('user_id', $id)->get();
+        $readDataML = MachineLearning::where('pasien_id', $id)->get();
         $user = User::where('id', $id)->firstOrfail();
         $user_id = $user->id;
-        return view('dokter.dokter.details', compact('user_id'));
+        return view('dokter.dokter.details', compact('readpasien','readDataML','user_id'));
     }
     public function addDetails($id){
         
