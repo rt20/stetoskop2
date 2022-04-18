@@ -30,7 +30,7 @@ class PasienController extends Controller
 
         return view('pasien.pasien.addDocNur', compact('addDocNur'));
     }
-
+ 
     public function ownCheck()
     {
         $activeUser = User::find(Auth::id());
@@ -78,7 +78,7 @@ class PasienController extends Controller
         ]);
 
         $activeUser = User::find(Auth::id());
-
+ 
         $fileModel = new MachineLearning;
 
         if ($request->file()) {

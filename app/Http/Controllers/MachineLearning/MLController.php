@@ -23,8 +23,8 @@ class MLController extends Controller
         ini_set('max_execution_time', 300);
         if (Storage::disk('public')->exists("uploads/$request->name")) {
             $data = Storage::disk('public')->path("uploads/$request->name");
-            $model = '/model.tflite';
-            #dd($model);
+            // $model = '/model.tflite';
+            $model = (base_path('/model.tflite'));
             $python = '/usr/bin/python3.8';
             $script = escapeshellcmd(base_path('/ml_scrypt.py'));
             $command = "$python $script $data $model";
@@ -89,7 +89,7 @@ class MLController extends Controller
         $readpasien = MachineLearning::where('id', $id)->firstOrfail();
         if (Storage::disk('public')->exists("uploads/$readpasien->name")) {
             $data = Storage::disk('public')->path("uploads/$readpasien->name");
-            $model = '/model.tflite';
+            $model = (base_path('/model.tflite'));
             $python = '/usr/bin/python3.8';
             $script = escapeshellcmd(base_path('/ml_scrypt.py'));
             $command = "$python $script $data $model";

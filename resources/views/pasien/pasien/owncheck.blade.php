@@ -10,7 +10,7 @@
                         <strong>{{ $message }}</strong>
                     </div>
                     @endif
-
+ 
                     @if (count($errors) > 0)
                     <div class="pl-28 alert alert-danger">
                         <ul>
