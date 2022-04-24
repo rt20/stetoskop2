@@ -22,6 +22,7 @@ class HomeController extends Controller
 
         if ($role_id == '1') {
             $dataML = $this->PasienController->dataML();
+            // dd($dataML);
             return view('pasien.pasien.dashboard', compact('dataML'));
         } else {
             $readPasien = $this->DokterController->viewPasien();

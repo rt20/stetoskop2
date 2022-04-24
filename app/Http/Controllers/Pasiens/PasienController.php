@@ -27,7 +27,7 @@ class PasienController extends Controller
     public function addDocNur()
     {
         $addDocNur = User::where('role_id', '2')->get();
-
+        
         return view('pasien.pasien.addDocNur', compact('addDocNur'));
     }
  
@@ -43,7 +43,7 @@ class PasienController extends Controller
         $activeUser = User::find(Auth::id());
         $gender = $activeUser->gender;
         $address = $activeUser->address;
-
+      
         if ($gender == null or $address == null){
             return view('profile.show');
         } else {
@@ -95,7 +95,7 @@ class PasienController extends Controller
                 ->with('file', $fileName);
         }
     }
-
+ 
     public function dataML()
     {
         $activeUser = User::find(Auth::id());
