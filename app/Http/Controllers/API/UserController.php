@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\Fortify\PasswordValidationRules;
 use App\helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    use PasswordValidationRules;
     public function login(Request $request)
     {
 
@@ -67,22 +70,43 @@ class UserController extends Controller
     {
         try {
             // validasi 
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'max:255', 'unique:users'],
-                'password' => $this->passwordRules()
+            // $validator = $request->validate([
+            //     'name' => ['required', 'string', 'max:255'],
+            //     'email' => ['required', 'string', 'max:255', 'unique:users'],
+            //     'password' => $this->passwordRules()
+            // ]);
+            //set validation
+            $validator = Validator::make($request->all(), [
+                'name'      => 'required',
+                'email'     => 'required|email|unique:users',
+                'password'  => 'required|min:8|confirmed'
             ]);
-
-            User::create([
+            //if validation fails
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'address' => $request->address,
-                'houseNumber' => $request->houseNumber,
-                'phoneNumber' => $request->phoneNumber,
-                'city' => $request->city,
+                'ktp' => $request->ktp,
+                'role_id' => $request->role_id,
+                'phonenumber' => $request->phonenumber,
+                'gender' => $request->gender,
                 'password' => Hash::make($request->password),
             ]);
-
+            //return response JSON user is created
+            if($user) {
+                return response()->json([
+                    'success' => true,
+                    'user'    => $user,  
+                ], 201);
+            } else {
+                //return JSON process insert failed 
+                return response()->json([
+                    'success' => false,
+                ], 409);
+            }
             $user = User::where('email', $request->email)->first();
             $token = $user->createToken('authToken')->plainTextToken;
             return ResponseFormatter::success([
@@ -90,11 +114,12 @@ class UserController extends Controller
                 'token_type' => 'Bearer',
                 'user' => $user
             ]);
+            
         } catch (Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'something went wrong',
                 'error' => $error
-            ], 'Authentication failed', 500);
+            ], 'Authentication failed tenan', 500);
         }
     }
 

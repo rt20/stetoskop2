@@ -31,10 +31,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::POST('logout', [UserController::class, 'logout']);
 });
 
-Route::GET('login', [UserController::class, 'login']);
+Route::POST('login', [UserController::class, 'login']);
 
 Route::POST('register', [UserController::class, 'register']);
 
 Route::GET('food', [FoodController::class, 'all']);
 
 Route::POST('midtrans/callback', [MidtransController::class, 'midtransCallback']);
+
+// Route::post('/register', 'App\Http\Controllers\Api\UserController::class')->name('register');
